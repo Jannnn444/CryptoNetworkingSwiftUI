@@ -15,8 +15,14 @@ class CoinViewModel: ObservableObject {
     @Published var coin = ""
     @Published var price = ""
     
-    func fetchPrice() {
-        let urlString = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+    init() {
+        
+        fetchPrice(coin: "ethereum")
+    }
+    
+    
+    func fetchPrice(coin: String) {
+        let urlString = "https://api.coingecko.com/api/v3/simple/price?ids=\(coin)&vs_currencies=usd"
         guard let url = URL(string: urlString) else { return }  //physical url Object
         
             print("Fetching price..")
@@ -25,13 +31,19 @@ class CoinViewModel: ObservableObject {
             
             guard let data = data else { return }   //make sure we have data first
             guard let jasonObject = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return }  //transfer json into dictionary
-            guard let value = jasonObject["bitcoin"] as? [String: Int] else { return }
+            print(jasonObject)
+            guard let value = jasonObject[coin] as? [String: Double] else {   //debuggig by print
+                
+                print("Failed to parse value")
+                return
+                
+                }
             guard let price = value["usd"] else { return }
             
             
             
             DispatchQueue.main.sync {             // DispatchQueue got these properties ultimatily update the user interface into main thread
-                self.coin = "Bitcoin"
+                self.coin = coin.capitalized
                 self.price = "$\(price)"
             }
             
