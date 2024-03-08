@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		54BDAB8F2B9A940F00580EC2 /* CoinDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BDAB8E2B9A940F00580EC2 /* CoinDataService.swift */; };
+		54BDAB912B9A9D1C00580EC2 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BDAB902B9A9D1C00580EC2 /* Coin.swift */; };
 		54E0CEF22B979CDE005E7726 /* CryptoNetworkingSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E0CEF12B979CDE005E7726 /* CryptoNetworkingSwiftUIApp.swift */; };
 		54E0CEF42B979CDE005E7726 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E0CEF32B979CDE005E7726 /* ContentView.swift */; };
 		54E0CEF62B979CDF005E7726 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54E0CEF52B979CDF005E7726 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		54BDAB8E2B9A940F00580EC2 /* CoinDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDataService.swift; sourceTree = "<group>"; };
+		54BDAB902B9A9D1C00580EC2 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		54E0CEEE2B979CDE005E7726 /* CryptoNetworkingSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoNetworkingSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54E0CEF12B979CDE005E7726 /* CryptoNetworkingSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoNetworkingSwiftUIApp.swift; sourceTree = "<group>"; };
 		54E0CEF32B979CDE005E7726 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		54E0CF042B979D3B005E7726 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				54BDAB902B9A9D1C00580EC2 /* Coin.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -203,6 +206,7 @@
 				54BDAB8F2B9A940F00580EC2 /* CoinDataService.swift in Sources */,
 				54E0CF062B979F2E005E7726 /* CoinViewModel.swift in Sources */,
 				54E0CEF42B979CDE005E7726 /* ContentView.swift in Sources */,
+				54BDAB912B9A9D1C00580EC2 /* Coin.swift in Sources */,
 				54E0CEF22B979CDE005E7726 /* CryptoNetworkingSwiftUIApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
