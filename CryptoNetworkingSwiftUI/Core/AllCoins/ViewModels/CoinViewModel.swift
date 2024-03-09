@@ -11,19 +11,31 @@ class CoinViewModel: ObservableObject {
     
     
     @Published var coins = [Coin]()
+    @Published var errorMessage: String?
     
     private let service = CoinDataService()
     
     init() {
-        fetchCoins()
+        Task { try await fetchCoins() }
     }
     
-    func fetchCoins() {
-        service.fetchCoins { coins in
+    func fetchCoins() async throws {
+        self.coins = try await service.fetchCoins()    // try this api, wait for the data return, make it cecomes the slef coin value
+    }
+    
+    func fetchCoinsWithCompletionHandler() {
+ 
+        service.fetchCoinsWithResult { [weak self] result in
             DispatchQueue.main.async {
-                self.coins = coins
-            }
-        }
+                switch result {
+                case .success(let coins):
+                    self?.coins = coins
+                case .failure(let error):
+                    self?.errorMessage = error.localizedDescription
+                }
+            } 
+        
+    }
     }
     
 }

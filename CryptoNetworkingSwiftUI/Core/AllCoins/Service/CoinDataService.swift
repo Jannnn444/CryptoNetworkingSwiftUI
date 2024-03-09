@@ -10,22 +10,65 @@ import Foundation
 
 class CoinDataService {
     
-    private let urlString = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h&locale=en"
+    private let urlString = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false&price_change_percentage=24h&locale=en"
     
-    func fetchCoins( completion: @escaping([Coin]) -> Void ) {
+// MARK: - Async Await
+        
+    func fetchCoins() async throws -> [Coin] {
+        guard let url = URL(string: urlString) else { return [] }
+        
+        print("DEBUG: Fetching data...")
+        
+        do {
+            // get data response from url w/o completionHandler, try wait for the result of this api call to come back
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let coins = try JSONDecoder().decode([Coin].self, from: data)
+            
+            return coins
+        } catch {
+            print("DEBUG: Error \(error.localizedDescription)")
+            return []
+        }
+
+    }
+    
+}
+
+
+//MARK: = Completion Handlers
+extension CoinDataService {
+    func fetchCoinsWithResult( completion: @escaping(Result<[Coin], CoinAPIError>) -> Void ) {
         
         guard let url = URL(string: urlString) else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else { return }
-            guard let coins = try? JSONDecoder().decode([Coin].self, from: data) else {
-                print("DEBUG: Coins decoded.")
+            
+            if let error = error {
+                completion(.failure(.unknownError(error: error)))
                 return
             }
             
-            for coin in coins {
-                print("DEBUG: Coind id \(coin.name)")
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(.requestFailed(description: "Request failed")))
+                    return
+                }
+            guard httpResponse.statusCode == 200 else {
+                completion(.failure(.invalidStatusCode(statusCode: httpResponse.statusCode)))
+                    return
+                }
+
+            
+            guard let data = data else {
+                completion(.failure(.invalidData))
+                return
             }
-            completion(coins)
+             do {
+                let coins = try? JSONDecoder().decode([Coin].self, from: data)
+                 completion(.success(coins!))
+            } catch {
+                print("DEBUG: Failed to decode with error \(error)")
+                completion(.failure(.jsonParsingFailure))
+            }
+           
         }.resume()  //everytime aysnc network
     }
 
@@ -41,6 +84,7 @@ class CoinDataService {
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse else {
+               
 //                 self.errorMessage = "Bad HTTP Response"
                 return
             }
@@ -64,7 +108,6 @@ class CoinDataService {
             
         }.resume()
     }
-    
     
     
 }
